@@ -1,25 +1,32 @@
-const express = require('express')
+const express = require('express');
 
-const router = express.Router()
+const {
+  getContactsList,
+  getById,
+  addContact,
+  removeContact,
+  updateContact,
+  isFavoriteById,
+  updateFavorite,
+} = require('../../controllers/contactsControllers.js');
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const {
+  checkContactById,
+  checkContactInput,
+  checkFavoriteInput,
+} = require('../../middlewares/contactsMiddlewares.js');
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const router = express.Router();
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.route('/').get(getContactsList).post(checkContactInput, addContact);
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.use('/:contactId', checkContactById);
+router
+  .route('/:contactId')
+  .get(getById)
+  .delete(removeContact)
+  .put(checkContactInput, updateContact);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.route('/:contactId/favorite').get(isFavoriteById).put(checkFavoriteInput, updateFavorite);
 
-module.exports = router
+module.exports = router;
