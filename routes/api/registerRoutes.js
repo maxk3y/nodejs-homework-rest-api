@@ -1,13 +1,14 @@
 const { Router } = require('express');
 
-const registerController = require('../../controllers/registerController');
-const { checkSignup, authMiddleware } = require('../../middlewares/authMiddleware');
+const usersControllers = require('../../controllers/usersController');
+const { checkSignup, authMiddleware, uploadAvatar } = require('../../middlewares/usersMiddleware');
 
 const router = Router();
 
-router.post('/register', checkSignup, registerController.signup);
-router.post('/login', registerController.login);
-router.post('/logout', authMiddleware, registerController.logout);
-router.post('/current', authMiddleware, registerController.getCurrentUser);
+router.post('/register', checkSignup, usersControllers.signup);
+router.post('/login', usersControllers.login);
+router.post('/logout', authMiddleware, usersControllers.logout);
+router.post('/current', authMiddleware, usersControllers.getCurrentUser);
+router.patch('/avatars', uploadAvatar, authMiddleware, usersControllers.updateAvatar);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const ImageService = require('../services/imageService');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -41,3 +42,5 @@ exports.checkSignup = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.uploadAvatar = ImageService.upload('avatar');

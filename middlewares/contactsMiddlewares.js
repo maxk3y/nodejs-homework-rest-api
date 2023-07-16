@@ -44,7 +44,6 @@ exports.checkContactInput = catchAsync(async (req, res, next) => {
 
 exports.checkFavoriteInput = catchAsync(async (req, res, next) => {
   const { error, value } = favoriteValidator(req.body);
-  console.log();
 
   if (error) return next(new AppError(400, error.message));
 

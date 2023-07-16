@@ -4,6 +4,7 @@ const AppError = require('../utils/appError');
 const userRolesEnum = require('../constants/userRolesEnum');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
+const ImageService = require('../services/imageService');
 
 const signToken = id => jwt.sign({ id }, process.env.JWT_SECRET);
 
@@ -68,5 +69,19 @@ exports.getCurrentUser = catchAsync(async (req, res) => {
   return res.status(200).json({
     email,
     subscription,
+  });
+});
+
+exports.updateAvatar = catchAsync(async (req, res) => {
+  const { user, file } = req;
+
+  if (file) {
+    user.avatarURL = await ImageService.save(file, 'avatars', 'users', user.id);
+  }
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    user: updatedUser,
   });
 });

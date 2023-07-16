@@ -15,7 +15,7 @@ const {
   checkContactInput,
   checkFavoriteInput,
 } = require('../../middlewares/contactsMiddlewares.js');
-const { authMiddleware } = require('../../middlewares/authMiddleware.js');
+const { authMiddleware } = require('../../middlewares/usersMiddleware.js');
 
 const router = express.Router();
 router.use(authMiddleware);
